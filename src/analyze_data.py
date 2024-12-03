@@ -1,6 +1,8 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+import pandas as pd, numpy as np, string
+import matplotlib.pyplot as plt, seaborn as sns
+
+from collections import Counter
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Load the CSV file
 df = pd.read_csv("data/cleaned_enron_dataset.csv")
@@ -38,7 +40,7 @@ print(df["Label"].value_counts())
 
 # Plot the distribution of classes
 plt.figure(figsize=(8, 5))
-sns.countplot(x="Label", data=df, palette="viridis")
+sns.countplot(x="Label", data=df, palette="viridis", hue="Label", legend=False)
 plt.title("Class Distribution (Ham vs Spam)")
 plt.xlabel("Label")
 plt.ylabel("Frequency")
@@ -47,7 +49,7 @@ plt.show()
 
 # Analyze the relationship between message length and label
 plt.figure(figsize=(10, 6))
-sns.boxplot(x="Label", y="Message_Length", data=df, palette="muted")
+sns.boxplot(x="Label", y="Message_Length", data=df, palette="muted", hue="Label", legend=False)
 plt.title("Message Length by Class (Ham vs Spam)")
 plt.xlabel("Label")
 plt.ylabel("Message Length")
@@ -56,7 +58,6 @@ plt.show()
 
 # Word frequency analysis for clean messages
 print("\nTop 10 most frequent words in cleaned messages:")
-from collections import Counter
 word_counter = Counter(" ".join(df["Clean_Message"]).split())
 most_common_words = word_counter.most_common(10)
 print(most_common_words)
@@ -64,8 +65,55 @@ print(most_common_words)
 # Visualize top 10 words
 words, counts = zip(*most_common_words)
 plt.figure(figsize=(12, 6))
-sns.barplot(x=list(counts), y=list(words), palette="coolwarm")
+sns.barplot(x=list(counts), y=list(words), palette="coolwarm", hue=list(counts), legend=False)
 plt.title("Top 10 Words in Cleaned Messages")
 plt.xlabel("Frequency")
 plt.ylabel("Words")
 plt.show()
+
+# Calculate the word count in the clean message
+df["Word_Count"] = df["Clean_Message"].apply(lambda x: len(x.split()))
+
+# Count punctuation marks in the original message
+df["Punctuation_Count"] = df["Message"].apply(lambda x: sum([1 for char in x if char in string.punctuation]))
+
+# Calculate the ratio of capital letters to total letters
+df["Capital_Letter_Ratio"] = df["Message"].apply(
+    lambda x: sum(1 for char in x if char.isupper()) / (len(x) + 1e-5)
+)
+
+# Filter spam and ham messages
+spam_messages = df[df["Label"] == 1]["Clean_Message"]
+ham_messages = df[df["Label"] == 0]["Clean_Message"]
+
+# Use TfidfVectorizer to identify important keywords in spam messages
+tfidf_vectorizer = TfidfVectorizer(max_features=50, stop_words="english")  # Limit to top 50 terms
+tfidf_matrix_spam = tfidf_vectorizer.fit_transform(spam_messages)
+
+# Get feature names (keywords) and their importance
+spam_keywords_scores = zip(tfidf_vectorizer.get_feature_names_out(), np.asarray(tfidf_matrix_spam.sum(axis=0)).flatten())
+spam_keywords_sorted = sorted(spam_keywords_scores, key=lambda x: x[1], reverse=True)
+
+# Extract top 10 spam-indicative keywords
+spam_keywords = [keyword for keyword, score in spam_keywords_sorted[:10]]
+print("\nTop Spam Keywords:", spam_keywords)
+
+# Add Spam Keyword Count Feature using the dynamically generated spam keywords
+df["Spam_Keyword_Count"] = df["Clean_Message"].apply(
+    lambda x: sum(word in x for word in spam_keywords)
+)
+
+# Display a preview of the new feature
+print("\nSpam Keyword Count Preview:")
+print(df[["Clean_Message", "Spam_Keyword_Count"]].head())
+
+# Display first few rows of engineered features
+print("\nEngineered Features:")
+print(df[["Message_Length", "Word_Count", "Punctuation_Count", "Capital_Letter_Ratio", "Spam_Keyword_Count"]].head())
+
+# Select relevant features for the model
+selected_features = df[["Clean_Message", "Message_Length", "Word_Count", "Punctuation_Count", "Capital_Letter_Ratio", "Spam_Keyword_Count", "Label"]]
+
+# Save selected features to a new CSV
+selected_features.to_csv("data/selected_features_dataset.csv", index=False, encoding="utf-8")
+print("\nSelected features saved to 'data/selected_features_dataset.csv'.")
