@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the CSV file
-df = pd.read_csv("data/enron_dataset.csv")
+df = pd.read_csv("data/cleaned_enron_dataset.csv")
 
 # Display the first few rows of the dataset
 print("First few rows of the dataset:")
