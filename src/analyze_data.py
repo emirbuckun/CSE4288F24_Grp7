@@ -1,4 +1,4 @@
-import pandas as pd, numpy as np, string
+import pandas as pd, numpy as np, string, os
 import matplotlib.pyplot as plt, seaborn as sns
 
 from collections import Counter
@@ -26,13 +26,16 @@ df["Message_Length"] = df["Message"].apply(len)
 print("\nMessage Length Statistics:")
 print(df["Message_Length"].describe())
 
+# Ensure the images directory exists
+os.makedirs("images", exist_ok=True)
+
 # Plot the distribution of message lengths
 plt.figure(figsize=(10, 6))
 sns.histplot(df["Message_Length"], bins=50, kde=True, color='blue')
 plt.title("Message Length Distribution")
 plt.xlabel("Message Length")
 plt.ylabel("Frequency")
-plt.savefig("distribution_of_message_lengths.png")
+plt.savefig("images/distribution_of_message_lengths.png")
 plt.show()
 
 # Display the distribution of classes (spam vs ham)
@@ -46,7 +49,7 @@ plt.title("Class Distribution (Ham vs Spam)")
 plt.xlabel("Label")
 plt.ylabel("Frequency")
 plt.xticks(ticks=[0, 1], labels=["Ham", "Spam"])
-plt.savefig("distribution_of_classes.png")
+plt.savefig("images/distribution_of_classes.png")
 plt.show()
 
 # Analyze the relationship between message length and label
@@ -56,7 +59,7 @@ plt.title("Message Length by Class (Ham vs Spam)")
 plt.xlabel("Label")
 plt.ylabel("Message Length")
 plt.xticks(ticks=[0, 1], labels=["Ham", "Spam"])
-plt.savefig("relationship_between_length_and_label.png")
+plt.savefig("images/relationship_between_length_and_label.png")
 plt.show()
 
 # Word frequency analysis for clean messages
@@ -72,7 +75,7 @@ sns.barplot(x=list(counts), y=list(words), palette="coolwarm", hue=list(counts),
 plt.title("Top 10 Words in Cleaned Messages")
 plt.xlabel("Frequency")
 plt.ylabel("Words")
-plt.savefig("top_10.png")
+plt.savefig("images/top_10.png")
 plt.show()
 
 # Calculate the word count in the clean message
