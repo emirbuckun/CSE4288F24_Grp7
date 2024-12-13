@@ -67,7 +67,7 @@ df["Clean_Message"] = df["Message"].apply(clean_message)
 # Display cleaned messages
 print(df[["Message", "Clean_Message"]].head())
 
-# Reorder Columns
+# Reorder columns
 df = df[["Message", "Clean_Message", "Label"]]
 
 # Save cleaned data to a new CSV file
