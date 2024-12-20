@@ -1,5 +1,13 @@
 import os, re, zipfile, pandas as pd, nltk
 from nltk.corpus import stopwords
+import sys
+from logger import Logger
+
+# Ensure the logs directory exists
+os.makedirs("logs", exist_ok=True)
+
+# Redirect console output to a text file
+sys.stdout = Logger("logs/preprocess_log.txt")
 
 # Define paths
 zip_path = "data/enron-spam.zip"
@@ -73,3 +81,6 @@ df = df[["Message", "Clean_Message", "Label"]]
 # Save cleaned data to a new CSV file
 df.to_csv("data/cleaned_enron_dataset.csv", index=False, encoding="utf-8")
 print("Cleaned data has been saved to 'cleaned_enron_dataset.csv'.")
+
+# Close the log file
+sys.stdout.log.close()
