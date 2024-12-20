@@ -146,3 +146,8 @@ data/
 
 # MacOS
 .DS_Store
+
+# Output files
+images/
+models/
+logs/
