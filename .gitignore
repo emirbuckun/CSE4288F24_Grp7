@@ -147,8 +147,9 @@ data/
 # MacOS
 .DS_Store
 
-# Output files
+# Output directories
 images/
 models/
+predictions/
 logs/
 docs/
