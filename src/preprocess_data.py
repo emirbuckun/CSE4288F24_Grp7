@@ -13,10 +13,12 @@ sys.stdout = Logger("logs/preprocess_log.txt")
 zip_path = "data/enron-spam.zip"
 extract_to_path = "data/enron_data"
 
-# Extract the zip file
+# Extract only the enron1 directory from the zip file
 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-    zip_ref.extractall(extract_to_path)
-print(f"Files have been extracted to '{extract_to_path}' folder.")
+    for member in zip_ref.namelist():
+        if member.startswith("enron1/"):
+            zip_ref.extract(member, extract_to_path)
+print(f"Files from 'enron1' have been extracted to '{extract_to_path}' folder.")
 
 # Define folder paths for ham and spam messages
 ham_path = os.path.join(extract_to_path, "enron1", "ham")
