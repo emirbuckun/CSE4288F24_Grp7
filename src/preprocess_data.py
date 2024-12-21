@@ -45,7 +45,7 @@ df = pd.DataFrame(data)
 print(df.head())
 
 # Save DataFrame to CSV file
-df.to_csv("data/enron_dataset.csv", index=False, encoding="utf-8")
+df.to_csv("data/enron_dataset.csv", index=False, encoding="utf-8", escapechar="\\")
 print("Data has been saved to 'enron_dataset.csv'.")
 
 # Data Cleaning
@@ -81,7 +81,7 @@ print(df[["Message", "Clean_Message"]].head())
 df = df[["Message", "Clean_Message", "Label"]]
 
 # Save cleaned data to a new CSV file
-df.to_csv("data/cleaned_enron_dataset.csv", index=False, encoding="utf-8")
+df.to_csv("data/cleaned_enron_dataset.csv", index=False, encoding="utf-8", escapechar="\\")
 print("Cleaned data has been saved to 'cleaned_enron_dataset.csv'.")
 
 # Close the log file
