@@ -1,14 +1,24 @@
 import os, re, zipfile, pandas as pd, nltk
 from nltk.corpus import stopwords
+import sys
+from logger import Logger
+
+# Ensure the logs directory exists
+os.makedirs("logs", exist_ok=True)
+
+# Redirect console output to a text file
+sys.stdout = Logger("logs/preprocess_log.txt")
 
 # Define paths
 zip_path = "data/enron-spam.zip"
 extract_to_path = "data/enron_data"
 
-# Extract the zip file
+# Extract only the enron1 directory from the zip file
 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-    zip_ref.extractall(extract_to_path)
-print(f"Files have been extracted to '{extract_to_path}' folder.")
+    for member in zip_ref.namelist():
+        if member.startswith("enron1/"):
+            zip_ref.extract(member, extract_to_path)
+print(f"Files from 'enron1' have been extracted to '{extract_to_path}' folder.")
 
 # Define folder paths for ham and spam messages
 ham_path = os.path.join(extract_to_path, "enron1", "ham")
@@ -73,3 +83,6 @@ df = df[["Message", "Clean_Message", "Label"]]
 # Save cleaned data to a new CSV file
 df.to_csv("data/cleaned_enron_dataset.csv", index=False, encoding="utf-8")
 print("Cleaned data has been saved to 'cleaned_enron_dataset.csv'.")
+
+# Close the log file
+sys.stdout.log.close()

@@ -136,13 +136,20 @@ cython_debug/
 
 # Enron data
 enron_data/
-enron-spam.zip
-cleaned_enron_dataset.csv
-enron_dataset.csv
-data/
+# enron-spam.zip
+# cleaned_enron_dataset.csv
+# enron_dataset.csv
+# data/
 
 # VSCode
 .vscode/
 
 # MacOS
 .DS_Store
+
+# Output directories
+# images/
+# models/
+# predictions/
+# logs/
+# docs/

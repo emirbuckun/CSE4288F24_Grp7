@@ -1,5 +1,10 @@
 import pandas as pd, numpy as np, string, os
 import matplotlib.pyplot as plt, seaborn as sns
+import sys
+from logger import Logger
+
+# Redirect console output to a text file
+sys.stdout = Logger("logs/analyze_log.txt")
 
 from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -36,7 +41,7 @@ plt.title("Message Length Distribution")
 plt.xlabel("Message Length")
 plt.ylabel("Frequency")
 plt.savefig("images/distribution_of_message_lengths.png")
-plt.show()
+plt.close()  # Close the plot instead of showing it
 
 # Display the distribution of classes (spam vs ham)
 print("\nClass distribution:")
@@ -50,7 +55,7 @@ plt.xlabel("Label")
 plt.ylabel("Frequency")
 plt.xticks(ticks=[0, 1], labels=["Ham", "Spam"])
 plt.savefig("images/distribution_of_classes.png")
-plt.show()
+plt.close()  # Close the plot instead of showing it
 
 # Analyze the relationship between message length and label
 plt.figure(figsize=(10, 6))
@@ -60,7 +65,7 @@ plt.xlabel("Label")
 plt.ylabel("Message Length")
 plt.xticks(ticks=[0, 1], labels=["Ham", "Spam"])
 plt.savefig("images/relationship_between_length_and_label.png")
-plt.show()
+plt.close()  # Close the plot instead of showing it
 
 # Word frequency analysis for clean messages
 print("\nTop 10 most frequent words in cleaned messages:")
@@ -76,7 +81,7 @@ plt.title("Top 10 Words in Cleaned Messages")
 plt.xlabel("Frequency")
 plt.ylabel("Words")
 plt.savefig("images/top_10.png")
-plt.show()
+plt.close()  # Close the plot instead of showing it
 
 # Calculate the word count in the clean message
 df["Word_Count"] = df["Clean_Message"].apply(lambda x: len(x.split()))
@@ -124,3 +129,6 @@ selected_features = df[["Clean_Message", "Message_Length", "Word_Count", "Punctu
 # Save selected features to a new CSV
 selected_features.to_csv("data/selected_features_dataset.csv", index=False, encoding="utf-8")
 print("\nSelected features saved to 'data/selected_features_dataset.csv'.")
+
+# Close the log file
+sys.stdout.log.close()

@@ -1,0 +1,66 @@
+First few rows of the dataset:
+                                             Message                                      Clean_Message  Label
+0  Subject: ena sales on hpl\njust to update you ...  subject ena sales hpl update project status ba...      0
+1  Subject: 98 - 6736 & 98 - 9638 for 1997 ( ua 4...  subject ua issues referenced meters need place...      0
+2  Subject: hpl nominations for december 28 , 199...  subject hpl nominations december see attached ...      0
+3  Subject: revised nom - kcs resources\ndaren ,\...  subject revised nom kcs resources daren bob fo...      0
+4  Subject: new production - sitara deals needed\...  subject new production sitara deals needed dar...      0
+
+Dataset info:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 5172 entries, 0 to 5171
+Data columns (total 3 columns):
+ #   Column         Non-Null Count  Dtype 
+---  ------         --------------  ----- 
+ 0   Message        5172 non-null   object
+ 1   Clean_Message  5172 non-null   object
+ 2   Label          5172 non-null   int64 
+dtypes: int64(1), object(2)
+memory usage: 121.3+ KB
+None
+
+Missing values per column:
+Message          0
+Clean_Message    0
+Label            0
+dtype: int64
+
+Message Length Statistics:
+count     5172.000000
+mean      1030.146752
+std       1505.234521
+min         10.000000
+25%        238.000000
+50%        529.000000
+75%       1214.250000
+max      31860.000000
+Name: Message_Length, dtype: float64
+
+Class distribution:
+Label
+0    3672
+1    1500
+Name: count, dtype: int64
+
+Top 10 most frequent words in cleaned messages:
+[('ect', 13900), ('subject', 8061), ('hou', 7289), ('enron', 6555), ('com', 3710), ('please', 3200), ('gas', 3034), ('deal', 2827), ('meter', 2459), ('cc', 2371)]
+
+Top Spam Keywords: ['subject', 'http', 'com', 'www', 'new', 'email', 'click', 'time', 'best', 'online']
+
+Spam Keyword Count Preview:
+                                       Clean_Message  Spam_Keyword_Count
+0  subject ena sales hpl update project status ba...                   3
+1  subject ua issues referenced meters need place...                   1
+2  subject hpl nominations december see attached ...                   1
+3  subject revised nom kcs resources daren bob fo...                   1
+4  subject new production sitara deals needed dar...                   3
+
+Engineered Features:
+   Message_Length  Word_Count  Punctuation_Count  Capital_Letter_Ratio  Spam_Keyword_Count
+0            2597         247                147              0.000385                   3
+1             549          30                 38              0.001821                   1
+2             103          11                  8              0.009709                   1
+3             530          44                 81              0.001887                   1
+4            1391         139                136              0.000719                   3
+
+Selected features saved to 'data/selected_features_dataset.csv'.

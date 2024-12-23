@@ -1,0 +1,19 @@
+Files from 'enron1' have been extracted to 'data/enron_data' folder.
+                                             Message Label
+0  Subject: ena sales on hpl\njust to update you ...   ham
+1  Subject: 98 - 6736 & 98 - 9638 for 1997 ( ua 4...   ham
+2  Subject: hpl nominations for december 28 , 199...   ham
+3  Subject: revised nom - kcs resources\ndaren ,\...   ham
+4  Subject: new production - sitara deals needed\...   ham
+Data has been saved to 'enron_dataset.csv'.
+Missing values per column:
+Message    0
+Label      0
+dtype: int64
+                                             Message                                      Clean_Message
+0  Subject: ena sales on hpl\njust to update you ...  subject ena sales hpl update project status ba...
+1  Subject: 98 - 6736 & 98 - 9638 for 1997 ( ua 4...  subject ua issues referenced meters need place...
+2  Subject: hpl nominations for december 28 , 199...  subject hpl nominations december see attached ...
+3  Subject: revised nom - kcs resources\ndaren ,\...  subject revised nom kcs resources daren bob fo...
+4  Subject: new production - sitara deals needed\...  subject new production sitara deals needed dar...
+Cleaned data has been saved to 'cleaned_enron_dataset.csv'.
