@@ -8,16 +8,19 @@ This project is part of the CSE4288 course for Fall 2024. The objective is to pr
 
 ```
 CSE4288F24_Grp7/
-├── data/                            # Data directory
-│   ├── enron-spam.zip               # Enron spam data (not included in repo since contains large files)
-├── docs/                            # Documentation files
-│   ├── proposal.pdf                 # Proposal of the project
-│   ├── term_project.pdf             # Term project document
-├── src/                             # Source directory
-│   ├── preprocess_data.py           # Preprocessing script
-│   ├── analyze_data.py              # Analyzing script
-├── .gitignore                       # Ignore unnecessary files
-└── README.md                        # Project overview
+├── data/                           # Data directory
+├── docs/                           # Documentation files
+├── images/                         # Images from analyze
+├── logs/                           # Logs for the scripts' outputs
+├── models/                         # Contains models
+├── predictions/                    # Contains model predictions
+├── src/                            # Source directory
+│   ├── analyze_data.py             # Analyzing script
+│   ├── logger.py                   # Logger for console and file
+│   ├── model_development.py        # Model development script
+│   ├── preprocess_data.py          # Preprocessing script
+├── .gitignore                      # Ignore unnecessary files
+└── README.md                       # Project overview
 ```
 
 ## Installation Guide
@@ -66,6 +69,12 @@ CSE4288F24_Grp7/
 
 ```bash
     python src/analyze_data.py
+```
+
+3. **Model development:**
+
+```bash
+    python src/model_development.py
 ```
 
 ## License
